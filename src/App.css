@@ -1,0 +1,20 @@
+body{
+  display: grid;
+  place-items: center;
+}
+
+
+.card {
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 40px;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
