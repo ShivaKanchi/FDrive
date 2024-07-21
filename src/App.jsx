@@ -1,5 +1,7 @@
+import SignIn from "./components/auth/SignIn";
+
 function App() {
-  return <></>;
+  return <SignIn />;
 }
 
 export default App;
