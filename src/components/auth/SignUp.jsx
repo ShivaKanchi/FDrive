@@ -12,17 +12,16 @@ export default function SignUp() {
 
   async function handleSubmitClick(e) {
     e.preventDefault();
-
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
     }
-
     try {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
     } catch (error) {
       setError("Failed to create an account");
+      console.log("Failed to create an account", error);
     }
     setLoading(false);
   }
