@@ -1,27 +1,25 @@
 import { useRef, useState } from "react";
 import { Alert, Button, Card, Form } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function SignIn() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const emailRef = useRef();
   const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-  const { signup } = useAuth();
+  const { signin } = useAuth();
 
   async function handleSubmitClick(e) {
     e.preventDefault();
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match");
-    }
+
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await signin(emailRef.current.value, passwordRef.current.value);
     } catch (error) {
-      setError("Failed to create an account");
-      console.log("Failed to create an account", error);
+      setError("Failed to login into account");
+      console.log("Failed to login into account", error);
     }
     setLoading(false);
   }
@@ -44,22 +42,15 @@ export default function SignIn() {
                 ref={passwordRef}
               ></Form.Control>
             </Form.Group>
-            <Form.Group id="passwordConfirm">
-              <Form.Label>Password Confirm</Form.Label>
-              <Form.Control
-                type="passwordConfirm"
-                required
-                ref={passwordConfirmRef}
-              ></Form.Control>
-            </Form.Group>
-            <Button disabled={loading} className="w-100 " type="sumit">
-              Sign Up
+
+            <Button disabled={loading} className="w-100 " type="submit">
+              Sign iN
             </Button>
           </Form>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Dont have an account? Sign In
+        Dont have an account? <Link to="/sign-up">Sign Up</Link>
       </div>
     </>
   );

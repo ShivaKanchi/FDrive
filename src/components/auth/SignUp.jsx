@@ -29,7 +29,7 @@ export default function SignUp() {
     <>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Sign In</h2>
+          <h2 className="text-center mb-4">Sign Up</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmitClick}>
             <Form.Group id="email">
@@ -52,14 +52,14 @@ export default function SignUp() {
                 ref={passwordConfirmRef}
               ></Form.Control>
             </Form.Group>
-            <Button disabled={loading} className="w-100 " type="sumit">
+            <Button disabled={loading} className="w-100 " type="submit">
               Sign Up
             </Button>
           </Form>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
-        Dont have an account? Sign In
+        Already have an account? <Link to="/sign-in">Sign In</Link>
       </div>
     </>
   );
