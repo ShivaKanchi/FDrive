@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Alert, Button, Card, Form } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [error, setError] = useState("");
@@ -9,6 +9,7 @@ export default function SignIn() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { signin } = useAuth();
+  const navigatTo = useNavigate();
 
   async function handleSubmitClick(e) {
     e.preventDefault();
@@ -17,11 +18,12 @@ export default function SignIn() {
       setError("");
       setLoading(true);
       await signin(emailRef.current.value, passwordRef.current.value);
+      console.log("signed in");
+      navigatTo("/");
     } catch (error) {
       setError("Failed to login into account");
       console.log("Failed to login into account", error);
     }
-    console.log("signed in");
     setLoading(false);
   }
   return (

@@ -3,7 +3,6 @@ import SignUp from "./components/auth/SignUp";
 import SignIn from "./components/auth/SignIn";
 import Dashboard from "./components/Dashboard.jsx";
 import { AuthProvider } from "./contexts/AuthContext";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (

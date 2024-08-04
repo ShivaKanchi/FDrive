@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Alert, Button, Card, Form } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [error, setError] = useState("");
@@ -10,7 +10,7 @@ export default function SignUp() {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const { signup } = useAuth();
-
+  const navigateTo = useNavigate();
   async function handleSubmitClick(e) {
     e.preventDefault();
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
@@ -20,11 +20,12 @@ export default function SignUp() {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+      console.log("signed up");
+      navigateTo("/");
     } catch (error) {
       setError("Failed to create an account");
       console.log("Failed to create an account", error);
     }
-    console.log("signed up");
     setLoading(false);
   }
   return (
