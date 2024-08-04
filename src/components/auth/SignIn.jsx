@@ -21,6 +21,7 @@ export default function SignIn() {
       setError("Failed to login into account");
       console.log("Failed to login into account", error);
     }
+    console.log("signed in");
     setLoading(false);
   }
   return (
@@ -43,8 +44,8 @@ export default function SignIn() {
               ></Form.Control>
             </Form.Group>
 
-            <Button disabled={loading} className="w-100 " type="submit">
-              Sign iN
+            <Button disabled={loading} className="w-100 mt-4" type="submit">
+              Sign In
             </Button>
           </Form>
         </Card.Body>

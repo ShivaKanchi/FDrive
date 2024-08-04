@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Alert, Button, Card, Form } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
   const [error, setError] = useState("");
@@ -23,6 +24,7 @@ export default function SignUp() {
       setError("Failed to create an account");
       console.log("Failed to create an account", error);
     }
+    console.log("signed up");
     setLoading(false);
   }
   return (
@@ -52,7 +54,7 @@ export default function SignUp() {
                 ref={passwordConfirmRef}
               ></Form.Control>
             </Form.Group>
-            <Button disabled={loading} className="w-100 " type="submit">
+            <Button disabled={loading} className="w-100 mt-4" type="submit">
               Sign Up
             </Button>
           </Form>
