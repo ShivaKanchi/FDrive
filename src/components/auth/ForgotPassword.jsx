@@ -3,7 +3,7 @@ import { Alert, Button, Card, Form } from "react-bootstrap";
 import { useAuth } from "../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function SignIn() {
+export default function ForgotPassword() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const emailRef = useRef();
@@ -63,4 +63,4 @@ export default function SignIn() {
   );
 }
 
-SignIn;
+ForgotPassword;

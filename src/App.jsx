@@ -1,6 +1,7 @@
 import { Container } from "react-bootstrap";
 import SignUp from "./components/auth/SignUp";
 import SignIn from "./components/auth/SignIn";
+import ForgotPassword from "./components/auth/ForgotPassword";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/auth/PrivateRoute.jsx";
@@ -20,6 +21,7 @@ function App() {
               </Route>
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
             </Routes>
           </AuthProvider>
         </Router>
