@@ -31,10 +31,10 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   }
   function updateuseremail(email) {
-    return updateEmail(currentUser, email);
+    return updateEmail(auth.currentUser, email);
   }
   function updateuserpassword(password) {
-    return updatePassword(currentUser, password);
+    return updatePassword(auth.currentUser, password);
   }
 
   useEffect(() => {

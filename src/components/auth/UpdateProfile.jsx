@@ -11,31 +11,33 @@ export default function UpdateProfile() {
   const passwordConfirmRef = useRef();
   const { currentUser, updateuseremail, updateuserpassword } = useAuth();
   const navigateTo = useNavigate();
-  function handleSubmitClick(e) {
+  async function handleSubmitClick(e) {
     e.preventDefault();
+
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
     }
 
+    setError("");
+    setLoading(true);
+
     const promises = [];
     if (emailRef.current.value !== currentUser.email) {
-      promises.push(updateuseremail(emailRef.current.user));
+      promises.push(updateuseremail(emailRef.current.value));
     }
 
-    if (passwordRef.current.value !== currentUser.password) {
-      promises.push(updateuserpassword(passwordRef.current.user));
+    if (passwordRef.current.value) {
+      promises.push(updateuserpassword(passwordRef.current.value));
     }
 
-    Promise.all(promises)
-      .then(() => {
-        navigateTo("/");
-      })
-      .catch(() => {
-        setError("Failed to update");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      await Promise.all(promises);
+      navigateTo("/");
+    } catch {
+      setError("Failed to update profile");
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <>
