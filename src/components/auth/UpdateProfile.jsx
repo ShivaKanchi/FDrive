@@ -9,24 +9,33 @@ export default function UpdateProfile() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { currentUser } = useAuth();
+  const { currentUser, updateuseremail, updateuserpassword } = useAuth();
   const navigateTo = useNavigate();
-  async function handleSubmitClick(e) {
+  function handleSubmitClick(e) {
     e.preventDefault();
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
     }
-    try {
-      setError("");
-      setLoading(true);
-      //   await signup(emailRef.current.value, passwordRef.current.value);
-      console.log("signed up");
-      navigateTo("/");
-    } catch (error) {
-      setError("Failed to create an account");
-      console.log("Failed to create an account", error);
+
+    const promises = [];
+    if (emailRef.current.value !== currentUser.email) {
+      promises.push(updateuseremail(emailRef.current.user));
     }
-    setLoading(false);
+
+    if (passwordRef.current.value !== currentUser.password) {
+      promises.push(updateuserpassword(passwordRef.current.user));
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        navigateTo("/");
+      })
+      .catch(() => {
+        setError("Failed to update");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
   return (
     <>
@@ -61,7 +70,7 @@ export default function UpdateProfile() {
               ></Form.Control>
             </Form.Group>
             <Button disabled={loading} className="w-100 mt-4" type="submit">
-              Sign Up
+              Update
             </Button>
           </Form>
         </Card.Body>
