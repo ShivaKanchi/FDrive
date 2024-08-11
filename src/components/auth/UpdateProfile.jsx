@@ -43,7 +43,7 @@ export default function UpdateProfile() {
     <>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Update Profile</h2>
+          <h2 className="text-center mb-4">Update Password</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmitClick}>
             <Form.Group id="email">
@@ -51,6 +51,7 @@ export default function UpdateProfile() {
               <Form.Control
                 type="email"
                 required
+                disabled
                 ref={emailRef}
                 defaultValue={currentUser.email}
               ></Form.Control>
