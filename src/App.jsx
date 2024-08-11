@@ -4,26 +4,30 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/auth/PrivateRoute.jsx";
-import Dashboard from "./components/Dashboard.jsx";
+import Profile from "./components/Profile.jsx";
 import UpdateProfile from "./components/auth/UpdateProfile";
-import CenteredContainer from "./components/CenteredContainer.jsx";
+import Dashboard from "./components/drive/Dashboard.jsx";
 function App() {
   return (
-    <CenteredContainer>
-      <Router>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<PrivateRoute />}>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/update-profile" element={<UpdateProfile />} />
-            </Route>
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-          </Routes>
-        </AuthProvider>
-      </Router>
-    </CenteredContainer>
+    <Router>
+      <AuthProvider>
+        <Routes>
+          {/* Drive */}
+          <Route path="/" element={<Dashboard />} />
+
+          <Route path="/user" element={<PrivateRoute />}>
+            {/* Profile */}
+            <Route path="/user" element={<Profile />} />
+            <Route path="/update-profile" element={<UpdateProfile />} />
+          </Route>
+
+          {/* Auth */}
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Routes>
+      </AuthProvider>
+    </Router>
   );
 }
 
