@@ -17,8 +17,8 @@ function App() {
 
           <Route path="/user" element={<PrivateRoute />}>
             {/* Profile */}
-            <Route path="/user" element={<Profile />} />
-            <Route path="/update-profile" element={<UpdateProfile />} />
+            <Route path="/user/profile" element={<Profile />} />
+            <Route path="/user/update-profile" element={<UpdateProfile />} />
           </Route>
 
           {/* Auth */}
