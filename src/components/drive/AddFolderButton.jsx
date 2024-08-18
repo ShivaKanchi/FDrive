@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { addFolder } from "../../utils/firebase-config";
 import { useAuth } from "../../contexts/AuthContext";
-export default function AddFolderButton() {
+
+export default function AddFolderButton({ currentFolder }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const { currentUser } = useAuth();
@@ -16,7 +17,8 @@ export default function AddFolderButton() {
   }
   function handleSubmitClick(e) {
     e.preventDefault();
-    addFolder(name, "parentId", currentUser.uid, "path");
+    if (currentFolder == null) return;
+    addFolder(name, currentFolder?.id, currentUser.uid, "path");
     setName("");
     closeModal();
   }
