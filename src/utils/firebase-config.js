@@ -1,7 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, getFirestore } from "firebase/firestore/lite";
+import {
+  addDoc,
+  collection,
+  getFirestore,
+  serverTimestamp,
+} from "firebase/firestore/lite";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -25,10 +30,14 @@ export const database = {
 };
 
 // Add a new document to the "folders" collection
-export async function addFolder(name) {
+export async function addFolder(name, parentId = "", userId = "", path = "") {
   try {
     await addDoc(database.folders, {
       name: name,
+      parentId,
+      userId,
+      path,
+      createdAt: serverTimestamp(),
     });
     console.log("Folder added successfully!");
   } catch (error) {

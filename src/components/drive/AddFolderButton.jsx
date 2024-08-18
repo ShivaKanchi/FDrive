@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { addFolder } from "../../utils/firebase-config";
-
+import { useAuth } from "../../contexts/AuthContext";
 export default function AddFolderButton() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
+  const { currentUser } = useAuth();
   function openModal() {
     setOpen(true);
   }
@@ -15,7 +16,7 @@ export default function AddFolderButton() {
   }
   function handleSubmitClick(e) {
     e.preventDefault();
-    addFolder(name);
+    addFolder(name, "parentId", currentUser.uid, "path");
     setName("");
     closeModal();
   }
