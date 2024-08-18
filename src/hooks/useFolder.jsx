@@ -6,7 +6,14 @@ const ACTIONS = {
 function reducer(state, { type, payload }) {
   switch (type) {
     case ACTIONS.SELECT_FOLDER:
-      return {};
+      return {
+        folderId: payload.folderId,
+        folder: payload.folder,
+        childFolders: [],
+        childFiles: [],
+      };
+    default:
+      return state;
   }
 }
 
