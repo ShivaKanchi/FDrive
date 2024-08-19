@@ -6,9 +6,7 @@ import {
   collection,
   getFirestore,
   serverTimestamp,
-} from "firebase/firestore/lite";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,7 +21,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// Initialize Firestore
 const firestore = getFirestore(app);
+
+// Export database references
 export const database = {
   folders: collection(firestore, "folders"),
   files: collection(firestore, "files"),
@@ -33,7 +34,7 @@ export const database = {
 export async function addFolder(name, parentId = "", userId = "", path = "") {
   try {
     await addDoc(database.folders, {
-      name: name,
+      name,
       parentId,
       userId,
       path,
@@ -45,5 +46,6 @@ export async function addFolder(name, parentId = "", userId = "", path = "") {
   }
 }
 
-export const auth = getAuth();
+// Export the authentication module
+export const auth = getAuth(app);
 export default app;
