@@ -6,6 +6,7 @@ import Folder from "./Folder";
 
 export default function Dashboard() {
   const { folder, childFolders } = useFolder("kw7BS1wkFhRtJDEmi5eC");
+  console.log(childFolders);
 
   return (
     <>

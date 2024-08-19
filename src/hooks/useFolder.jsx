@@ -115,8 +115,6 @@ export function useFolder(folderId = null, folder = null) {
 
       try {
         const querySnapshot = await getDocs(queryWrote);
-        console.log(querySnapshot);
-
         const childFolders = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
