@@ -1,15 +1,14 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useCallback } from "react";
 import {
   doc,
   getDoc,
-  collection,
+  getDocs,
   query,
   where,
   orderBy,
-  onSnapshot,
-} from "firebase/firestore";
-import { database } from "../utils/firebase-config";
+} from "firebase/firestore/lite";
 import { useAuth } from "../contexts/AuthContext";
+import { getFoldersCollection } from "../utils/firebase-config";
 
 const ROOT_FOLDER = { name: "Root", id: null, path: [] };
 
@@ -55,7 +54,10 @@ export function useFolder(folderId = null, folder = null) {
   useEffect(() => {
     dispatch({
       type: ACTIONS.SELECT_FOLDER,
-      payload: { folderId, folder },
+      payload: {
+        folderId,
+        folder,
+      },
     });
   }, [folderId, folder]);
 
@@ -63,24 +65,31 @@ export function useFolder(folderId = null, folder = null) {
     if (folderId == null) {
       dispatch({
         type: ACTIONS.UPDATE_FOLDER,
-        payload: { folder: ROOT_FOLDER },
+        payload: {
+          folder: ROOT_FOLDER,
+        },
       });
       return;
     }
 
-    const folderRef = doc(database, "folders", folderId); // Correctly referencing the doc
+    const folderRef = doc(getFoldersCollection(), folderId);
 
     getDoc(folderRef)
       .then((doc) => {
         if (doc.exists()) {
           dispatch({
             type: ACTIONS.UPDATE_FOLDER,
-            payload: { folder: { id: doc.id, ...doc.data() } },
+            payload: {
+              folder: { id: doc.id, ...doc.data() },
+            },
           });
         } else {
+          console.log("No such document!");
           dispatch({
             type: ACTIONS.UPDATE_FOLDER,
-            payload: { folder: ROOT_FOLDER },
+            payload: {
+              folder: ROOT_FOLDER,
+            },
           });
         }
       })
@@ -88,35 +97,45 @@ export function useFolder(folderId = null, folder = null) {
         console.error("Error fetching document: ", error);
         dispatch({
           type: ACTIONS.UPDATE_FOLDER,
-          payload: { folder: ROOT_FOLDER },
+          payload: {
+            folder: ROOT_FOLDER,
+          },
         });
       });
   }, [folderId]);
 
+  const fetchChildFolders = useCallback(async () => {
+    if (folderId && currentUser) {
+      const queryWrote = query(
+        getFoldersCollection(),
+        where("parentId", "==", folderId),
+        where("userId", "==", currentUser.uid),
+        orderBy("createdAt")
+      );
+
+      try {
+        const querySnapshot = await getDocs(queryWrote);
+        console.log(querySnapshot);
+
+        const childFolders = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        dispatch({
+          type: ACTIONS.SET_CHILD_FOLDERS,
+          payload: {
+            childFolders,
+          },
+        });
+      } catch (error) {
+        console.error("Error fetching child folders: ", error);
+      }
+    }
+  }, [folderId, currentUser]);
+
   useEffect(() => {
-    if (!folderId || !currentUser) return;
-
-    const q = query(
-      collection(database, "folders"),
-      where("parentId", "==", folderId),
-      where("userId", "==", currentUser.uid),
-      orderBy("createdAt")
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      dispatch({
-        type: ACTIONS.SET_CHILD_FOLDERS,
-        payload: {
-          childFolders: snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })),
-        },
-      });
-    });
-
-    return unsubscribe;
-  }, [folderId, currentUser, dispatch]);
+    fetchChildFolders();
+  }, [fetchChildFolders]);
 
   return state;
 }

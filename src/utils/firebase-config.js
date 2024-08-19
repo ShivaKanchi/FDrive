@@ -6,7 +6,7 @@ import {
   collection,
   getFirestore,
   serverTimestamp,
-} from "firebase/firestore";
+} from "firebase/firestore/lite";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,20 +21,22 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore
 const firestore = getFirestore(app);
 
-// Export database references
-export const database = {
-  folders: collection(firestore, "folders"),
-  files: collection(firestore, "files"),
-};
+export function getFoldersCollection() {
+  return collection(firestore, "folders");
+}
+
+export function getFilesCollection() {
+  return collection(firestore, "files");
+}
 
 // Add a new document to the "folders" collection
 export async function addFolder(name, parentId = "", userId = "", path = "") {
   try {
-    await addDoc(database.folders, {
-      name,
+    const foldersCollection = getFoldersCollection();
+    await addDoc(foldersCollection, {
+      name: name,
       parentId,
       userId,
       path,
@@ -46,6 +48,5 @@ export async function addFolder(name, parentId = "", userId = "", path = "") {
   }
 }
 
-// Export the authentication module
-export const auth = getAuth(app);
+export const auth = getAuth();
 export default app;
