@@ -14,7 +14,7 @@ export default function Dashboard() {
       <Container fluid>
         <AddFolderButton currentFolder={folder} />
 
-        {childFolders.lenght > 0 && (
+        {childFolders.lenght > 0 ? (
           <div className="d-flex flex-wrap">
             {childFolders.map((childFolder) => (
               <div
@@ -26,6 +26,8 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
+        ) : (
+          "Empty"
         )}
       </Container>
     </>
