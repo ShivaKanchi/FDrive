@@ -14,6 +14,7 @@ function App() {
         <Routes>
           {/* Drive */}
           <Route path="/" element={<Dashboard />} />
+          <Route path="/folder/:folderId" element={<Dashboard />} />
 
           <Route path="/user" element={<PrivateRoute />}>
             {/* Profile */}

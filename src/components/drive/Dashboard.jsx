@@ -3,11 +3,12 @@ import HeaderComponent from "../HeaderComponent";
 import AddFolderButton from "./AddFolderButton";
 import { useFolder } from "../../hooks/useFolder";
 import Folder from "./Folder";
+import { useParams } from "react-router-dom";
 
 export default function Dashboard() {
-  const { folder, childFolders } = useFolder("kw7BS1wkFhRtJDEmi5eC");
+  const { folderId } = useParams();
+  const { folder, childFolders } = useFolder(folderId);
   console.log(childFolders);
-
   return (
     <>
       <HeaderComponent />

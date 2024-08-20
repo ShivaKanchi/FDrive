@@ -5,7 +5,12 @@ import { Button } from "react-bootstrap";
 
 export default function Folder({ folder }) {
   return (
-    <Button variant="outline-dark" className="text-truncate w-100" as={Link}>
+    <Button
+      to={`/folder/${folder.id}`}
+      variant="outline-dark"
+      className="text-truncate w-100"
+      as={Link}
+    >
       <FontAwesomeIcon icon={faFolder} className="mr-2" />
       {folder.name}
     </Button>
