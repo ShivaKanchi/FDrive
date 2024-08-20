@@ -4,6 +4,7 @@ import AddFolderButton from "./AddFolderButton";
 import { useFolder } from "../../hooks/useFolder";
 import Folder from "./Folder";
 import { useParams } from "react-router-dom";
+import FolderBreadcrumb from "./FolderBreadcrumb";
 
 export default function Dashboard() {
   const { folderId } = useParams();
@@ -13,6 +14,7 @@ export default function Dashboard() {
     <>
       <HeaderComponent />
       <Container fluid>
+        <FolderBreadcrumb currentFolder={folder} />
         <AddFolderButton currentFolder={folder} />
 
         {childFolders.length > 0 && (
