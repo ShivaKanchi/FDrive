@@ -105,7 +105,7 @@ export function useFolder(folderId = null, folder = null) {
   }, [folderId]);
 
   useEffect(() => {
-    return async () => {
+    const fetchChildFolders = async () => {
       if (folderId && currentUser) {
         const queryWrote = query(
           getFoldersCollection(),
@@ -131,6 +131,8 @@ export function useFolder(folderId = null, folder = null) {
         }
       }
     };
+
+    fetchChildFolders();
   }, [folderId, currentUser]);
 
   return state;
