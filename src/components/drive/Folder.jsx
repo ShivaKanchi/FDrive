@@ -11,7 +11,8 @@ export default function Folder({ folder }) {
       className="text-truncate w-100"
       as={Link}
     >
-      <FontAwesomeIcon icon={faFolder} className="mr-2" />
+      <FontAwesomeIcon icon={faFolder} className="me-2" />{" "}
+      {/* Updated className */}
       {folder.name}
     </Button>
   );

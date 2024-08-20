@@ -10,6 +10,7 @@ export default function Dashboard() {
   const { folderId } = useParams();
   const { folder, childFolders } = useFolder(folderId);
   console.log(childFolders);
+
   return (
     <>
       <HeaderComponent />
@@ -17,7 +18,7 @@ export default function Dashboard() {
         <FolderBreadcrumb currentFolder={folder} />
         <AddFolderButton currentFolder={folder} />
 
-        {childFolders.length > 0 && (
+        {childFolders.length > 0 ? (
           <div className="d-flex flex-wrap">
             {childFolders.map((childFolder) => (
               <div
@@ -29,6 +30,8 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
+        ) : (
+          "Empty"
         )}
       </Container>
     </>

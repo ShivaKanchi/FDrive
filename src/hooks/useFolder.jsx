@@ -10,7 +10,7 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { getFoldersCollection } from "../utils/firebase-config";
 
-const ROOT_FOLDER = { name: "Root", id: null, path: [] };
+export const ROOT_FOLDER = { name: "Root", id: null, path: [] };
 
 const ACTIONS = {
   SELECT_FOLDER: "select-folder",
@@ -106,13 +106,26 @@ export function useFolder(folderId = null, folder = null) {
 
   useEffect(() => {
     const fetchChildFolders = async () => {
-      if (folderId && currentUser) {
-        const queryWrote = query(
-          getFoldersCollection(),
-          where("parentId", "==", folderId),
-          where("userId", "==", currentUser.uid),
-          orderBy("createdAt")
-        );
+      if (currentUser) {
+        let queryWrote;
+
+        if (folderId == null) {
+          // Query for root-level folders
+          queryWrote = query(
+            getFoldersCollection(),
+            where("parentId", "==", ""),
+            where("userId", "==", currentUser.uid),
+            orderBy("createdAt")
+          );
+        } else {
+          // Query for child folders
+          queryWrote = query(
+            getFoldersCollection(),
+            where("parentId", "==", folderId),
+            where("userId", "==", currentUser.uid),
+            orderBy("createdAt")
+          );
+        }
 
         try {
           const querySnapshot = await getDocs(queryWrote);
