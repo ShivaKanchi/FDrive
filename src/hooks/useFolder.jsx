@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useCallback } from "react";
+import { useEffect, useReducer } from "react";
 import {
   doc,
   getDoc,
@@ -104,36 +104,34 @@ export function useFolder(folderId = null, folder = null) {
       });
   }, [folderId]);
 
-  const fetchChildFolders = useCallback(async () => {
-    if (folderId && currentUser) {
-      const queryWrote = query(
-        getFoldersCollection(),
-        where("parentId", "==", folderId),
-        where("userId", "==", currentUser.uid),
-        orderBy("createdAt")
-      );
-
-      try {
-        const querySnapshot = await getDocs(queryWrote);
-        const childFolders = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        dispatch({
-          type: ACTIONS.SET_CHILD_FOLDERS,
-          payload: {
-            childFolders,
-          },
-        });
-      } catch (error) {
-        console.error("Error fetching child folders: ", error);
-      }
-    }
-  }, [folderId, currentUser]);
-
   useEffect(() => {
-    fetchChildFolders();
-  }, [fetchChildFolders]);
+    return async () => {
+      if (folderId && currentUser) {
+        const queryWrote = query(
+          getFoldersCollection(),
+          where("parentId", "==", folderId),
+          where("userId", "==", currentUser.uid),
+          orderBy("createdAt")
+        );
+
+        try {
+          const querySnapshot = await getDocs(queryWrote);
+          const childFolders = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          dispatch({
+            type: ACTIONS.SET_CHILD_FOLDERS,
+            payload: {
+              childFolders,
+            },
+          });
+        } catch (error) {
+          console.error("Error fetching child folders: ", error);
+        }
+      }
+    };
+  }, [folderId, currentUser]);
 
   return state;
 }

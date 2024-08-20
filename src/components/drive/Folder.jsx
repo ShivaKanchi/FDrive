@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Folder() {
-  return <div>Folder</div>;
+  return <Link>Folder</Link>;
 }
