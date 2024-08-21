@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 export default function HeaderComponent() {
   return (
     <>
-      <Navbar bg="light" expanded="sm">
+      <Navbar
+        bg="light"
+        expanded="sm"
+        className="d-flex justify-content-between"
+      >
         <Navbar.Brand as={Link} to="/">
           FDrive
         </Navbar.Brand>
