@@ -49,4 +49,5 @@ export async function addFolder(name, parentId = "", userId = "", path = "") {
 }
 
 export const auth = getAuth();
+
 export default app;

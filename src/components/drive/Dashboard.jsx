@@ -9,30 +9,31 @@ import FolderBreadcrumb from "./FolderBreadcrumb";
 export default function Dashboard() {
   const { folderId } = useParams();
   const { folder, childFolders } = useFolder(folderId);
+  // const { folder, childFolders } = useFolder("");
   console.log(childFolders);
 
   return (
     <>
       <HeaderComponent />
       <Container fluid>
-        <FolderBreadcrumb currentFolder={folder} />
-        <AddFolderButton currentFolder={folder} />
+        <div className="d-flex align-items-center mt-2">
+          <FolderBreadcrumb currentFolder={folder} />
+          <AddFolderButton currentFolder={folder} />
 
-        {childFolders.length > 0 ? (
-          <div className="d-flex flex-wrap">
-            {childFolders.map((childFolder) => (
-              <div
-                key={childFolder.id}
-                style={{ maxWidth: "250px" }}
-                className="p-2"
-              >
-                <Folder folder={childFolder} />
-              </div>
-            ))}
-          </div>
-        ) : (
-          "Empty"
-        )}
+          {childFolders.length > 0 && (
+            <div className="d-flex flex-wrap">
+              {childFolders.map((childFolder) => (
+                <div
+                  key={childFolder.id}
+                  style={{ maxWidth: "250px" }}
+                  className="p-2"
+                >
+                  <Folder folder={childFolder} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </Container>
     </>
   );

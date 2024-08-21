@@ -9,7 +9,7 @@ import { ROOT_FOLDER } from "../../hooks/useFolder";
 export default function AddFolderButton({ currentFolder }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
-  const [loading, setLoading] = useState(false); // New state for loading
+  const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
 
   function openModal() {

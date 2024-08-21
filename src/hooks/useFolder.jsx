@@ -63,13 +63,13 @@ export function useFolder(folderId = null, folder = null) {
 
   useEffect(() => {
     if (folderId == null) {
-      dispatch({
+      console.log("it is null");
+      return dispatch({
         type: ACTIONS.UPDATE_FOLDER,
         payload: {
           folder: ROOT_FOLDER,
         },
       });
-      return;
     }
 
     const folderRef = doc(getFoldersCollection(), folderId);
