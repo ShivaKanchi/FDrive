@@ -63,13 +63,14 @@ export function useFolder(folderId = null, folder = null) {
 
   useEffect(() => {
     if (folderId == null) {
-      console.log("it is null");
-      return dispatch({
+      console.log("folderId is null, setting ROOT_FOLDER");
+      dispatch({
         type: ACTIONS.UPDATE_FOLDER,
         payload: {
           folder: ROOT_FOLDER,
         },
       });
+      return; // Important to return here to prevent further code execution
     }
 
     const folderRef = doc(getFoldersCollection(), folderId);
@@ -106,42 +107,42 @@ export function useFolder(folderId = null, folder = null) {
 
   useEffect(() => {
     const fetchChildFolders = async () => {
-      if (currentUser) {
-        let queryWrote;
+      if (!currentUser) return;
 
-        if (folderId == null) {
-          // Query for root-level folders
-          queryWrote = query(
-            getFoldersCollection(),
-            where("parentId", "==", ""),
-            where("userId", "==", currentUser.uid),
-            orderBy("createdAt")
-          );
-        } else {
-          // Query for child folders
-          queryWrote = query(
-            getFoldersCollection(),
-            where("parentId", "==", folderId),
-            where("userId", "==", currentUser.uid),
-            orderBy("createdAt")
-          );
-        }
+      let queryWrote;
 
-        try {
-          const querySnapshot = await getDocs(queryWrote);
-          const childFolders = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          dispatch({
-            type: ACTIONS.SET_CHILD_FOLDERS,
-            payload: {
-              childFolders,
-            },
-          });
-        } catch (error) {
-          console.error("Error fetching child folders: ", error);
-        }
+      if (folderId == null) {
+        // Query for root-level folders
+        queryWrote = query(
+          getFoldersCollection(),
+          where("parentId", "==", ""), // Assuming root folders have an empty string as parentId
+          where("userId", "==", currentUser.uid),
+          orderBy("createdAt")
+        );
+      } else {
+        // Query for child folders
+        queryWrote = query(
+          getFoldersCollection(),
+          where("parentId", "==", folderId),
+          where("userId", "==", currentUser.uid),
+          orderBy("createdAt")
+        );
+      }
+
+      try {
+        const querySnapshot = await getDocs(queryWrote);
+        const childFolders = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        dispatch({
+          type: ACTIONS.SET_CHILD_FOLDERS,
+          payload: {
+            childFolders,
+          },
+        });
+      } catch (error) {
+        console.error("Error fetching child folders: ", error);
       }
     };
 

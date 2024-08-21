@@ -8,7 +8,7 @@ import FolderBreadcrumb from "./FolderBreadcrumb";
 
 export default function Dashboard() {
   const { folderId } = useParams();
-  const { folder, childFolders } = useFolder(folderId);
+  const { folder, childFolders } = useFolder(null);
   // const { folder, childFolders } = useFolder("");
   console.log(childFolders);
 
