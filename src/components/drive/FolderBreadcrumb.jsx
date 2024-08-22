@@ -14,7 +14,12 @@ export default function FolderBreadcrumb({ currentFolder }) {
         <Breadcrumb.Item
           key={indx}
           linkAs={Link}
-          linkProps={{ to: folder.id ? `/folder/${folder.id}` : "/" }}
+          linkProps={{
+            to: {
+              pathname: folder.id ? `/folder/${folder.id}` : "/",
+              state: { folder: { ...folder, path: path.slice(1, index) } },
+            },
+          }}
           className="text-truncate d-inline-block"
           style={{ maxWidth: "200px" }}
         >
